@@ -55,8 +55,26 @@ void testVector()
 
 int main(int const argc, char const* const argv[])
 {
-	testVector();
+	//testVector();
+	
+	int r, g, b;
 
-	printf("\n\n");
+	const int image_width = 256;
+	const int image_height = 256;
+
+	printf("P3\n256 256\n255\n");
+
+	for (int i = 0; i < image_width; i++)
+	{
+		for (int j = 0; j < image_height; j++)
+		{
+			r = 0;
+			g = j;
+			b = i;
+
+			printf("%d %d %d\n", r, g, b);
+		}
+	}
+
 	system("pause");
 }
