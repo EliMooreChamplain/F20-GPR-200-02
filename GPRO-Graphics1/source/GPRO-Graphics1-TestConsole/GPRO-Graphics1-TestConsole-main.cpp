@@ -80,7 +80,7 @@ color ray_color(const ray& r, const hittable& world)
 		return 0.5 * (rec.normal + color(1, 1, 1));
 	}
 	vec3 unit_direction = unit_vector(r.direction());
-	auto t = 0.5 * (unit_direction.y + 1.0);
+	double t = 0.5 * (unit_direction.y + 1.0);
 	return double(1.0 - t) * color(1.0, 1.0, 1.0) + double(t) * color(double(0.5), double(0.7), double(1.0));
 }
 
@@ -118,7 +118,7 @@ int main(int const argc, char const* const argv[])
 		for (int i = 0; i < image_width; ++i)
 		{
 			double u = double(i) / (image_width-1);
-            auto v = double(j) / (image_height-1);
+            double v = double(j) / (image_height-1);
             ray r(origin, lower_left_corner + u*horizontal + v*vertical - origin);
 			color pixel_color = ray_color(r, world);
 			writeColor(std::cout, pixel_color);
