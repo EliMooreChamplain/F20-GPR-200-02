@@ -83,8 +83,8 @@ color ray_color(const ray& r, const hittable& world)
 		return 0.5 * (rec.normal + color(1, 1, 1));
 	}
 	vec3 unit_direction = unit_vector(r.direction());
-	double t = 0.5 * (unit_direction.y + 1.0);
-	return double(1.0 - t) * color(1.0, 1.0, 1.0) + double(t) * color(double(0.25), double(0.5), double(1));//BACKGROUND COLOR
+	//double t = 0.5 * (unit_direction.y + 1.0);
+	return color(unit_direction.y, unit_direction.x, 0);//BACKGROUND COLOR
 }
 
 

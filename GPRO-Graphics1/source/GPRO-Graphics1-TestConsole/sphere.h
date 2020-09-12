@@ -1,3 +1,5 @@
+//Eli Moore
+//Sphere object that is used for the renderer
 //Credit to Peter Shirley
 #ifndef SPHERE_H
 #define SPHERE_H

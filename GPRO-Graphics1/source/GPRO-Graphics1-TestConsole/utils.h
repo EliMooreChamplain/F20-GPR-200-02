@@ -1,3 +1,5 @@
+//Eli Moore
+//Utility functions and variables for the program
 //Credit to Peter Shirley
 #ifndef UTILS_H
 #define UTILS_H
