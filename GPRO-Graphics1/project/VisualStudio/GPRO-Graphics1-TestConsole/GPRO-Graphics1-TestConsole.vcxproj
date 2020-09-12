@@ -18,6 +18,16 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\GPRO-Graphics1-TestConsole\GPRO-Graphics1-TestConsole-main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\GPRO-Graphics1-TestConsole\hittable.h" />
+    <ClInclude Include="..\..\..\source\GPRO-Graphics1-TestConsole\hittable_list.h" />
+    <ClInclude Include="..\..\..\source\GPRO-Graphics1-TestConsole\ray.h" />
+    <ClInclude Include="..\..\..\source\GPRO-Graphics1-TestConsole\sphere.h" />
+    <ClInclude Include="..\..\..\source\GPRO-Graphics1-TestConsole\utils.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{E0A2CCE8-ADAB-4E89-BB9B-40CEEBC071BC}</ProjectGuid>
@@ -166,9 +176,6 @@
       <AdditionalDependencies>GPRO-Graphics1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\source\GPRO-Graphics1-TestConsole\GPRO-Graphics1-TestConsole-main.c" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

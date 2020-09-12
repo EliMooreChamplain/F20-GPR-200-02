@@ -42,9 +42,9 @@ typedef union vec3 vec3;
 
 // DB: declare shorthand types
 
-typedef float float3[3];		// 3 floats form the basis of a float vector
-typedef float* floatv;			// generic float vector (pointer)
-typedef float const* floatkv;	// generic constant float vector (pointer)
+typedef double double3[3];		// 3 doubles form the basis of a double vector
+typedef double* doublev;			// generic double vector (pointer)
+typedef double const* doublekv;	// generic constant double vector (pointer)
 
 
 // DB: declare 3D vector
@@ -58,23 +58,30 @@ typedef float const* floatkv;	// generic constant float vector (pointer)
 //		members x, y, z: named components of vector
 union vec3
 {
-	float3 v;
-	struct { float x, y, z; };
+	double3 v;
+	struct { double x, y, z; };
 
 #ifdef __cplusplus
 	// DB: in C++ we can have convenient member functions
 	//	-> e.g. constructors, operators
 
 	explicit vec3();	// default ctor
-	explicit vec3(float const xc, float const yc = 0.0f, float const zc = 0.0f);	// init ctor w one or more floats
-	explicit vec3(float3 const vc);	// copy ctor w generic array of floats
+	explicit vec3(double const xc, double const yc = 0.0f, double const zc = 0.0f);	// init ctor w one or more doubles
+	explicit vec3(double3 const vc);	// copy ctor w generic array of doubles
 	vec3(vec3 const& rh);	// copy ctor
+
+	vec3 operator-() const { return vec3(-v[0], -v[1], -v[2]); }//ADDED
 
 	vec3& operator =(vec3 const& rh);	// assignment operator (copy other to this)
 
 	vec3& operator +=(vec3 const& rh);	// addition assignment operator (add other to this)
 
 	vec3 const operator +(vec3 const& rh) const;	// addition operator (get sum of this and another)
+
+
+	double length_squared() const {
+		return v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
+	};
 
 #endif	// __cplusplus
 };
@@ -83,13 +90,13 @@ union vec3
 // DB: declare C functions (all equivalents of above C++ functions are here)
 //	-> return pointers so you can chain operations (they just take pointers)
 
-floatv vec3default(float3 v_out);	// default init
-floatv vec3init(float3 v_out, float const xc, float const yc, float const zc);	// init w floats
-floatv vec3copy(float3 v_out, float3 const v_rh);	// init w array of floats (same as assign and both copy ctors)
+doublev vec3default(double3 v_out);	// default init
+doublev vec3init(double3 v_out, double const xc, double const yc, double const zc);	// init w doubles
+doublev vec3copy(double3 v_out, double3 const v_rh);	// init w array of doubles (same as assign and both copy ctors)
 
-floatv vec3add(float3 v_lh_sum, float3 const v_rh);	// add other to lh vector
+doublev vec3add(double3 v_lh_sum, double3 const v_rh);	// add other to lh vector
 
-floatv vec3sum(float3 v_sum, float3 const v_lh, float3 const v_rh);	// get sum of lh and rh vector
+doublev vec3sum(double3 v_sum, double3 const v_lh, double3 const v_rh);	// get sum of lh and rh vector
 
 
 #ifdef __cplusplus

@@ -18,22 +18,29 @@
 	GPRO-Graphics1-TestConsole-main.c/.cpp
 	Main entry point source file for a Windows console application.
 
-	Modified by: ____________
-	Modified because: ____________
+	Modified by: Eli Moore
+	Modified because: 
 */
 
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 
 
 #include "gpro/gpro-math/gproVector.h"
+#include "utils.h"
+#include "hittable.h"
+#include "hittable_list.h"
+#include "ray.h"
+#include "sphere.h"
+
 
 
 void testVector()
 {
 	// test array vector initializers and functions
-	float3 av, bv, cv, dv;
+	double3 av, bv, cv, dv;
 	vec3default(av);								// -> a = (0, 0, 0)
 	vec3init(bv, 1.0f, 2.0f, 3.0f);					// -> b = (1, 2, 3)
 	vec3copy(dv, vec3init(cv, 4.0f, 5.0f, 6.0f));	// -> d = c = (4, 5, 6)
@@ -52,11 +59,72 @@ void testVector()
 #endif	// __cplusplus
 }
 
+using color  = vec3;
+using point3 = vec3;
+
+
+void writeColor(std::ostream& out, color pixel_color)
+{
+	out <<
+		static_cast<int>(pixel_color.x * 255.999) << " " <<
+		static_cast<int>(pixel_color.y * 255.999) << " " <<
+		static_cast<int>(pixel_color.z * 255.999) << " " <<
+		std::endl;
+}
+
+
+color ray_color(const ray& r, const hittable& world) 
+{
+	hit_record rec;
+	if (world.hit(r, 0, infinity, rec)) {
+		return 0.5 * (rec.normal + color(1, 1, 1));
+	}
+	vec3 unit_direction = unit_vector(r.direction());
+	auto t = 0.5 * (unit_direction.y + 1.0);
+	return double(1.0 - t) * color(1.0, 1.0, 1.0) + double(t) * color(double(0.5), double(0.7), double(1.0));
+}
+
 
 int main(int const argc, char const* const argv[])
 {
-	testVector();
+	//testVector();
 
-	printf("\n\n");
-	system("pause");
+	const double aspect_ratio = (double)16 / 9;
+	const int image_width = 400;
+	const int image_height = static_cast<int>(image_width / aspect_ratio);
+
+	hittable_list world;
+	world.add(make_shared<sphere>(point3(0, 0, -1), 0.5));
+	world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
+
+	double viewport_height = 2.0;
+	double viewport_width = aspect_ratio * viewport_height;
+	double focal_length = 1.0;
+
+	point3 origin = point3(0,0,0);
+	vec3 horizontal = vec3(viewport_width, 0, 0);
+	vec3 vertical = vec3(0,viewport_height,0);
+	point3 lower_left_corner = origin - horizontal / 2 - vertical / 2 - vec3(0, 0, focal_length);
+
+
+
+	std::cout << 
+		"P3\n" << 
+		image_width << " " << image_height << 
+		"\n255\n";
+
+	for (int j = image_height - 1; j >= 0; --j)
+	{
+		for (int i = 0; i < image_width; ++i)
+		{
+			double u = double(i) / (image_width-1);
+            auto v = double(j) / (image_height-1);
+            ray r(origin, lower_left_corner + u*horizontal + v*vertical - origin);
+			color pixel_color = ray_color(r, world);
+			writeColor(std::cout, pixel_color);
+		}
+	}
+
+	
+	//system("pause");
 }
