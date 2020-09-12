@@ -1,3 +1,4 @@
+//Credit to Peter Shirley
 #ifndef SPHERE_H
 #define SPHERE_H
 
@@ -7,12 +8,13 @@
 using color = vec3;
 using point3 = vec3;
 
-class sphere : public hittable {
+class sphere : public hittable 
+{
 public:
     //sphere() {}//Empty constructor, causes a warning when included
     sphere(point3 cen, double r) : center(cen), radius(r) {};
 
-    virtual bool hit(
+    virtual bool hit(//Hit function from hittable
         const ray& r, double tmin, double tmax, hit_record& rec) const override;
 
 public:
@@ -20,7 +22,11 @@ public:
     double radius;
 };
 
-bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) const {
+//SPHERE IS HIT IF BETWEEN T_MIN AND T_MAX
+bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) const 
+{
+    
+    //Hard-coded ray-sphere intersection algorithm
     vec3 oc = r.origin() - center;
     double a = r.direction().length_squared();
     double half_b = dot(oc, r.direction());
@@ -29,9 +35,8 @@ bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) cons
 
     if (discriminant > 0) {
         double root = std::sqrt(discriminant);
-
-        double temp = (-half_b - root) / a;
-        if (temp < t_max && temp > t_min) {
+        double temp = (-half_b - root) / a;//+-
+        if (temp < t_max && temp > t_min) {//If between t_max and t_min
             rec.t = temp;
             rec.p = r.at(rec.t);
             vec3 outward_normal = (rec.p - center) / radius;
@@ -39,7 +44,7 @@ bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) cons
             return true;
         }
 
-        temp = (-half_b + root) / a;
+        temp = (-half_b + root) / a;//+-; same as before
         if (temp < t_max && temp > t_min) {
             rec.t = temp;
             rec.p = r.at(rec.t);

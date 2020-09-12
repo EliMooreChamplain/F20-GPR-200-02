@@ -1,3 +1,4 @@
+//Credit to Peter Shirley
 #ifndef UTILS_H
 #define UTILS_H
 
@@ -12,10 +13,10 @@ using std::sqrt;
 
 
 const double infinity = std::numeric_limits<double>::infinity();//Represents infinity
-const double pi = 3.1415926535897932385;
+const double pi = 3.1415926535897932385;//Pi
 
 
-inline double degrees_to_radians(double degrees) {
+inline double degrees_to_radians(double degrees) {//Degree to radian conversion
     return degrees * pi / 180.0;
 }
 

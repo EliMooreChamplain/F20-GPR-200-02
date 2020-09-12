@@ -18,8 +18,8 @@
 	gproVector.h
 	Interface for vectors. Sets an example for C and C++ compatible headers.
 
-	Modified by: ____________
-	Modified because: ____________
+	Modified by: Eli Moore
+	Modified because: Needed to add more tools
 */
 
 #ifdef _GPRO_VECTOR_H_
@@ -28,6 +28,8 @@
 
 
 #ifdef __cplusplus
+
+#include <cmath>
 
 inline vec3::vec3()
 	: x(0.0f), y(0.0f), z(0.0f)
@@ -67,35 +69,35 @@ inline vec3 const vec3::operator +(vec3 const& rh) const
 	return vec3((x + rh.x), (y + rh.y), (z + rh.z));
 }
 
-inline vec3 operator-(const vec3& u, const vec3& v) {//ADDED
+inline vec3 operator-(const vec3& u, const vec3& v) {//VECTOR SUBTRACTION OPERATOR
 	return vec3(u.v[0] - v.v[0], u.v[1] - v.v[1], u.v[2] - v.v[2]);
 }
 
-inline vec3 operator*(double t, const vec3& v) {//ADDED
+inline vec3 operator*(double t, const vec3& v) {//VECTOR/DOUBLE MULTIPLICATION
 	return vec3(t * v.v[0], t * v.v[1], t * v.v[2]);
 }
 
-inline vec3 operator*(const vec3& v, double t) {//ADDED
+inline vec3 operator*(const vec3& v, double t) {//SAME BUT REVERSED
 	return t * v;
 }
 
-inline vec3 operator/(vec3 v, double t) {//ADDED
+inline vec3 operator/(vec3 v, double t) {//VECTOR DIVISION OPERATOR
 	return (1 / t) * v;
 }
 
-inline double dot(const vec3& u, const vec3& v) {//ADDED
+inline double dot(const vec3& u, const vec3& v) {//DOT PRODUCT
 	return u.v[0] * v.v[0]
 		+ u.v[1] * v.v[1]
 		+ u.v[2] * v.v[2];
 }
 
-inline vec3 cross(const vec3& u, const vec3& v) {//ADDED
+inline vec3 cross(const vec3& u, const vec3& v) {//CROSS PRODUCT MULTIPLICATION
 	return vec3(u.v[1] * v.v[2] - u.v[2] * v.v[1],
 		u.v[2] * v.v[0] - u.v[0] * v.v[2],
 		u.v[0] * v.v[1] - u.v[1] * v.v[0]);
 }
 
-inline vec3 unit_vector(vec3 v) {//ADDED
+inline vec3 unit_vector(vec3 v) {//NORMALIZES VECTORS
 	return v/sqrt(pow(v.x,2) + pow(v.y,2) + pow(v.z,2));
 }
 

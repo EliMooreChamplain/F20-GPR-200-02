@@ -19,8 +19,9 @@
 	Main entry point source file for a Windows console application.
 
 	Modified by: Eli Moore
-	Modified because: 
 */
+
+//Credit to Peter Shirley
 
 
 #include <stdio.h>
@@ -65,6 +66,7 @@ using point3 = vec3;
 
 void writeColor(std::ostream& out, color pixel_color)
 {
+	//CONVERTING 0-255 TO 0-1
 	out <<
 		static_cast<int>(pixel_color.x * 255.999) << " " <<
 		static_cast<int>(pixel_color.y * 255.999) << " " <<
@@ -75,39 +77,42 @@ void writeColor(std::ostream& out, color pixel_color)
 
 color ray_color(const ray& r, const hittable& world) 
 {
+	//Setting the color depending on what is hit
 	hit_record rec;
 	if (world.hit(r, 0, infinity, rec)) {
 		return 0.5 * (rec.normal + color(1, 1, 1));
 	}
 	vec3 unit_direction = unit_vector(r.direction());
 	double t = 0.5 * (unit_direction.y + 1.0);
-	return double(1.0 - t) * color(1.0, 1.0, 1.0) + double(t) * color(double(0.5), double(0.7), double(1.0));
+	return double(1.0 - t) * color(1.0, 1.0, 1.0) + double(t) * color(double(0.25), double(0.5), double(1));//BACKGROUND COLOR
 }
 
 
 int main(int const argc, char const* const argv[])
 {
-	//testVector();
-
+	//SETTING UP THE ASPECT RATIO
 	const double aspect_ratio = (double)16 / 9;
 	const int image_width = 400;
 	const int image_height = static_cast<int>(image_width / aspect_ratio);
 
+	//CREATING THE WORLD
 	hittable_list world;
 	world.add(make_shared<sphere>(point3(0, 0, -1), 0.5));
 	world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
+	world.add(make_shared<sphere>(point3(3, 0, -2), .5));
+	
 
+	//CREATING THE CAMERA
 	double viewport_height = 2.0;
 	double viewport_width = aspect_ratio * viewport_height;
 	double focal_length = 1.0;
-
 	point3 origin = point3(0,0,0);
 	vec3 horizontal = vec3(viewport_width, 0, 0);
 	vec3 vertical = vec3(0,viewport_height,0);
 	point3 lower_left_corner = origin - horizontal / 2 - vertical / 2 - vec3(0, 0, focal_length);
 
 
-
+	//WRITING THE IMAGE
 	std::cout << 
 		"P3\n" << 
 		image_width << " " << image_height << 
@@ -117,6 +122,7 @@ int main(int const argc, char const* const argv[])
 	{
 		for (int i = 0; i < image_width; ++i)
 		{
+			//Render
 			double u = i / (double(image_width)-1);
             double v = j / (double(image_height)-1);
             ray r(origin, lower_left_corner + u*horizontal + v*vertical - origin);
@@ -124,7 +130,4 @@ int main(int const argc, char const* const argv[])
 			writeColor(std::cout, pixel_color);
 		}
 	}
-
-	
-	//system("pause");
 }
