@@ -4,10 +4,10 @@
 #include "ray.h"
 
 struct hit_record {
-    point3 p;
-    vec3 normal;
-    double t;
-    bool front_face;
+    point3 p = point3(0,0,0);
+    vec3 normal = vec3(0,0,0);
+    double t = 0.0;
+    bool front_face = false;
 
     inline void set_face_normal(const ray& r, const vec3& outward_normal) {
         front_face = dot(r.direction(), outward_normal) < 0;

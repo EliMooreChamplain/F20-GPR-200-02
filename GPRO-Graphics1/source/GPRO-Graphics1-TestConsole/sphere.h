@@ -9,7 +9,7 @@ using point3 = vec3;
 
 class sphere : public hittable {
 public:
-    sphere() {}
+    //sphere() {}//Empty constructor, causes a warning when included
     sphere(point3 cen, double r) : center(cen), radius(r) {};
 
     virtual bool hit(

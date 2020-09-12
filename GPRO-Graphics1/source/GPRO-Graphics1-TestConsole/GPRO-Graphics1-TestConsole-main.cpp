@@ -117,8 +117,8 @@ int main(int const argc, char const* const argv[])
 	{
 		for (int i = 0; i < image_width; ++i)
 		{
-			double u = double(i) / (image_width-1);
-            double v = double(j) / (image_height-1);
+			double u = i / (double(image_width)-1);
+            double v = j / (double(image_height)-1);
             ray r(origin, lower_left_corner + u*horizontal + v*vertical - origin);
 			color pixel_color = ray_color(r, world);
 			writeColor(std::cout, pixel_color);
